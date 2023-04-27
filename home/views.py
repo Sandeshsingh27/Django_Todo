@@ -16,4 +16,6 @@ def index(request):
     return render(request, 'index.html', context)
 
 def tasks(request):
-    return render(request, 'tasks.html')
+    alltasks=models.Task.objects.all()
+    context={'tasks':alltasks}
+    return render(request, 'tasks.html', context)
