@@ -9,11 +9,13 @@ def index(request):
     if request.method=='POST':
         title=request.POST['title']
         desc=request.POST['desc']
-
-        data=models.Task(title=title, desc=desc)
-        data.save()
-        context={'success':True}
-        print('user saved')
+        try:
+            data=models.Task(title=title, desc=desc)
+            data.save()
+            context={'success':True}
+            print('user saved')
+        except:
+            return 'There was an issue adding your task'
     return render(request, 'index.html', context)
 
 def tasks(request):
@@ -31,19 +33,23 @@ def edit(request, pk):
     return render(request, 'edit.html', context)
 
 def update(request, pk):
+    context={}
     if request.method=='POST':
         title=request.POST['title']
         desc=request.POST['desc']
-        complete=request.POST['complete']
         task = models.Task.objects.get(id=pk)
         task.title=title
         task.desc=desc
-        task.complete=complete
+        
+        task.complete = True if request.POST.get('complete') else False
+
         task.save()
         context={'success':True}
         print('task updated')
         # return redirect('/tasks')
 
+    tasks=models.Task.objects.all()
+    context.update({'tasks':tasks})
     return render(request, 'tasks.html', context)
 
 def delete(request, pk):

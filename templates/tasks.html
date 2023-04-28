@@ -3,6 +3,15 @@
 {% block tasksactive %}active{% endblock tasksactive %}
 
 {% block body %}
+    {% if success %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> Your task has been updated.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
+
     <div class="container my-3">
         <h2 class="text-center py-3">TODO List - All Tasks</h2>
         <table class="table">
@@ -11,7 +20,10 @@
                 <th scope="col">#</th>
                 <th scope="col">Task Title</th>
                 <th scope="col">Task Description</th>
-                <th scope="col">Task Edit Buttons</th>
+                <th scope="col">Task Created Date</th>
+                <th scope="col">Task Created Time</th>
+                <th scope="col">Task Actions</th>
+                <th scope="col">Task Status</th>
               </tr>
             </thead>
             <tbody>
@@ -20,8 +32,16 @@
                         <th scope="row">{{forloop.counter}}</th>
                         <td>{{task.title}}</td>
                         <td>{{task.desc}}</td>
+                        <td>{{task.time.date}}</td>
+                        <td>{{task.time.time}}</td>
                         <td><button type="button" class="btn btn-outline-info" onclick="location.href='{% url 'edit' task.id %}'" value="{{task.id}}">Edit</button>
                           <button type="button" class="btn btn-danger" onclick="location.href='{% url 'delete' task.id %}'" value="{{task.id}}">Delete</button></td>
+                        </td>
+                        {% if task.complete %}
+                        <td>Completed</td>
+                        {% else %}
+                        <td>Yet to complete!</td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>

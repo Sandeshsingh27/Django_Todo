@@ -14,11 +14,11 @@
 
     <div class="container my-3">
         <h2 class="text-center">Welcome to TODO List - Add a Task!</h2>
-        <form action="/" method="POST">
+        <form name="addTaskForm" action="/" method="POST" onsubmit="return titleRequired()">
             {% csrf_token %}
             <div class="form-group">
               <label for="title">Task Title</label>
-              <input type="text" class="form-control" id="title" name="title" placeholder="Enter your task">
+              <input type="text" class="form-control" id="title" name="title" placeholder="Enter your task" required>
             </div>
             <div class="form-group">
               <label for="desc">Task Description</label>
